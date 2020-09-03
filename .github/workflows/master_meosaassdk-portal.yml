@@ -24,13 +24,18 @@ jobs:
       working-directory: ./src
       run: dotnet build --configuration Release
 
-    - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+    - name: dotnet publish CustomerProvisioning
+      working-directory: ./src/SaaS.SDK.CustomerProvisioning
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/CustomerProvisioning
 
-    - name: Deploy to Azure Web App
+    - name: dotnet publish PublisherSolution
+      working-directory: ./src/SaaS.SDK.PublisherSolution
+      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/PublisherSolution
+
+    - name: Deploy to Azure Web App CustomerProvisioning
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'meosaassdk-portal'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_48329f078f404bbfa3f8149b1b1a9bb6 }}
-        package: ${{env.DOTNET_ROOT}}/myapp 
+        package: ${{env.DOTNET_ROOT}}/CustomerProvisioning 
