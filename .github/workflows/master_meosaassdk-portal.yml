@@ -37,5 +37,13 @@ jobs:
       with:
         app-name: 'meosaassdk-portal'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_48329f078f404bbfa3f8149b1b1a9bb6 }}
+        publish-profile: ${{ secrets.APP_SERVICE_PUBLISH_PROFILE_PORTAL }}
         package: ${{env.DOTNET_ROOT}}/CustomerProvisioning 
+        
+    - name: Deploy to Azure Web App PublisherSolution
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'meosaassdk-admin'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.APP_SERVICE_PUBLISH_PROFILE_ADMIN }}
+        package: ${{env.DOTNET_ROOT}}/PublisherSolution 
